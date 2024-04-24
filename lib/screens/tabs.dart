@@ -49,7 +49,7 @@ class _TabsScreenState extends State<TabsScreen> {
     }
   }
 
-  void _seletecPage(int index) {
+  void _selectPage(int index) {
     setState(() {
       _seletedPageIndex = index;
     });
@@ -110,7 +110,7 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
-        onTap: _seletecPage,
+        onTap: _selectPage,
         currentIndex: _seletedPageIndex,
         items: const [
           BottomNavigationBarItem(
