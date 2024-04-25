@@ -4,7 +4,10 @@ import 'package:foodie_app/models/meal.dart';
 import 'package:foodie_app/providers/favorites_provider.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
-  const MealDetailsScreen({super.key, required this.meal,});
+  const MealDetailsScreen({
+    super.key,
+    required this.meal,
+  });
 
   final Meal meal;
 
@@ -21,14 +24,29 @@ class MealDetailsScreen extends ConsumerWidget {
           IconButton(
             onPressed: () {
               final wasAdded = ref
-                .read(favoriteMealsProvider.notifier)//here we used read() instead of watch() to avoid setting up an ongoing listener but instead to read the value once
-                .toggleMealFavoriteStatus(meal); 
+                  .read(favoriteMealsProvider
+                      .notifier) //here we used read() instead of watch() to avoid setting up an ongoing listener but instead to read the value once
+                  .toggleMealFavoriteStatus(meal);
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(wasAdded ? "Meal added as a favorite" : "Meal removed from favorites"),
+                content: Text(wasAdded
+                    ? "Meal added as a favorite"
+                    : "Meal removed from favorites"),
               ));
             },
-            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (childToAnimate, animation) {
+                return RotationTransition(
+                  turns: Tween(begin: 0.9, end: 1.0,).animate(animation), //Tween<double>(begin: 0.5, end: 1,).animate(animation),
+                  child: childToAnimate,
+                );
+              },
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavorite),
+              ),
+            ),
           ),
         ],
       ),
